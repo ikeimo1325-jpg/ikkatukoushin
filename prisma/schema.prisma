@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Cast {
+  id          String   @id @default(cuid())
+  name        String
+  displayName String
+  active      Boolean  @default(true)
+  memo        String?
+
+  pokeparaUrl       String?
+  chocolatUrl       String?
+  nightstyleUrl     String?
+  caba2Url          String?
+
+  pokeparaEnabled   Boolean @default(true)
+  chocolatEnabled   Boolean @default(true)
+  nightstyleEnabled Boolean @default(true)
+  caba2Enabled      Boolean @default(true)
+
+  attendances AttendanceRecord[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AttendanceRecord {
+  id        String @id @default(cuid())
+  castId    String
+  cast      Cast   @relation(fields: [castId], references: [id], onDelete: Cascade)
+  date      String
+  status    String @default("unknown")
+  startTime String?
+  endTime   String?
+  comment   String?
+
+  updatePokepara   Boolean @default(true)
+  updateChocolat   Boolean @default(true)
+  updateNightstyle Boolean @default(true)
+  updateCaba2      Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([castId, date])
+}
+
+model UpdateLog {
+  id             String   @id @default(cuid())
+  executedAt     DateTime @default(now())
+  site           String
+  castId         String
+  castName       String
+  targetDate     String
+  status         String
+  startTime      String?
+  endTime        String?
+  comment        String?
+  success        Boolean
+  errorMessage   String?
+  screenshotPath String?
+  dryRun         Boolean  @default(false)
+}
+
+model SiteSettings {
+  id        String   @id @default(cuid())
+  site      String   @unique
+  enabled   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
