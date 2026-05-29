@@ -10,7 +10,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { SITE_LABELS, SITE_NAMES, type SiteName } from "@/lib/automation/types";
+import { SITE_LABELS, SITE_NAMES } from "@/lib/automation/types";
 import { getToday, addDays, formatDate, getDayOfWeek } from "@/lib/utils";
 
 type AttendanceStatus = "working" | "off" | "unknown";
@@ -92,7 +92,9 @@ export function AttendanceForm() {
     }
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadCasts(); }, [loadCasts]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadAttendance(date); }, [date, loadAttendance]);
 
   const getRecord = (cast: Cast): CastRecord =>

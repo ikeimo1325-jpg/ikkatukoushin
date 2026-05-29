@@ -1,6 +1,6 @@
 import type { PortalUpdater, AttendanceUpdatePayload, UpdateResult } from "./types";
 import { createBrowserWithSession, takeScreenshot } from "./common";
-import { saveSession, getSessionPath } from "./session";
+import { saveSession } from "./session";
 import { getScreenshotPath, saveUpdateLog } from "./logger";
 import { chromium } from "playwright";
 
